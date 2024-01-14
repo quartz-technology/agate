@@ -27,12 +27,8 @@ func NewAgateHeadListener() *AgateHeadListener {
 }
 
 // Init initializes a new AgateHeadListener using a BeaconAPIClient to listen to new head events.
-func (listener *AgateHeadListener) Init(
-	beaconAPIClient BeaconAPIClient,
-) error {
+func (listener *AgateHeadListener) Init(beaconAPIClient BeaconAPIClient) {
 	listener.beaconAPIClient = beaconAPIClient
-
-	return nil
 }
 
 func (listener *AgateHeadListener) Listen(

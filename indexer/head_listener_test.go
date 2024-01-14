@@ -21,8 +21,7 @@ func TestAgateHeadListener_Init(t *testing.T) {
 	listener := NewAgateHeadListener()
 	mockBeaconAPIClient := mocks.NewMockBeaconAPIClient(nil).WithDefaultInternalImplementations()
 
-	err := listener.Init(mockBeaconAPIClient)
-	require.NoError(t, err)
+	listener.Init(mockBeaconAPIClient)
 
 	require.NotNil(t, listener.beaconAPIClient)
 }
@@ -95,10 +94,9 @@ func TestAgateHeadListener_Listen(t *testing.T) {
 
 			headEvents := make(chan *v1.HeadEvent, tc.headEventsCount)
 
-			err := listener.Init(mockBeaconAPIClient)
-			require.NoError(t, err)
+			listener.Init(mockBeaconAPIClient)
 
-			err = listener.Listen(ctx, headEvents)
+			err := listener.Listen(ctx, headEvents)
 			require.NoError(t, err)
 
 			acc := make([]*v1.HeadEvent, 0)
