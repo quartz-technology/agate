@@ -1,0 +1,6 @@
+kind: Changed
+body: Move `HeadListener` implementation in its own package
+time: 2024-01-14T01:49:56.776573+01:00
+custom:
+  Author: 0xpanoramix
+  PR: "7"
