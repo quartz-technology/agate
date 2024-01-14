@@ -4,14 +4,17 @@ go 1.21.6
 
 require (
 	github.com/attestantio/go-eth2-client v0.19.8
+	github.com/quartz-technology/redax-go v0.0.4
 	github.com/rs/zerolog v1.31.0
 	github.com/stretchr/testify v1.8.4
 )
 
 require (
+	github.com/attestantio/go-builder-client v0.3.1 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/ethereum/go-ethereum v1.13.3 // indirect
 	github.com/fatih/color v1.16.0 // indirect
 	github.com/ferranbt/fastssz v0.1.3 // indirect
 	github.com/go-logr/logr v1.2.4 // indirect
@@ -38,7 +41,7 @@ require (
 	go.opentelemetry.io/otel/metric v1.16.0 // indirect
 	go.opentelemetry.io/otel/trace v1.16.0 // indirect
 	golang.org/x/crypto v0.18.0 // indirect
-	golang.org/x/net v0.10.0 // indirect
+	golang.org/x/net v0.15.0 // indirect
 	golang.org/x/sys v0.16.0 // indirect
 	golang.org/x/xerrors v0.0.0-20231012003039-104605ab7028 // indirect
 	google.golang.org/protobuf v1.30.0 // indirect
