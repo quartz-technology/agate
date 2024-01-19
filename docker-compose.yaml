@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  database:
+    image: bitnami/postgresql:15.2.0
+    ports:
+      - "${AGATE_INDEXER_DATABASE_PORT}:5432"
+    environment:
+      - POSTGRES_USER=${AGATE_INDEXER_DATABASE_USERNAME}
+      - POSTGRES_PASSWORD=${AGATE_INDEXER_DATABASE_PASSWORD}
+      - POSTGRES_DATABASE=${AGATE_INDEXER_DATABASE_DBNAME}
