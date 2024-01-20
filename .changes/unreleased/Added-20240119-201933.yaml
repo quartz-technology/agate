@@ -1,0 +1,6 @@
+kind: Added
+body: Implement indexer's `StorageManager` sub-service
+time: 2024-01-19T20:19:33.563864+01:00
+custom:
+  Author: 0xpanoramix
+  PR: "9"
