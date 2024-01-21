@@ -11,7 +11,7 @@ import (
 )
 
 func TestNewDefaultDataPreprocessor(t *testing.T) {
-	preprocessor := NewDefaultDataPreprocessor()
+	preprocessor := NewDataPreprocessor()
 
 	require.NotNil(t, preprocessor)
 }
@@ -19,7 +19,7 @@ func TestNewDefaultDataPreprocessor(t *testing.T) {
 func TestDefaultDataPreprocessor_Preprocess(t *testing.T) {
 	testCases := map[string]struct {
 		input  *common.AggregatedRelayData
-		output *DataPreprocessorOutput[[]*DefaultPreprocessedRelayData]
+		output *DataPreprocessorOutput
 	}{
 		"should preprocess non-delivered bid": {
 			input: &common.AggregatedRelayData{
@@ -33,8 +33,8 @@ func TestDefaultDataPreprocessor_Preprocess(t *testing.T) {
 					BidsDelivered: []*datav1.BidDelivered{},
 				},
 			},
-			output: &DataPreprocessorOutput[[]*DefaultPreprocessedRelayData]{
-				Output: []*DefaultPreprocessedRelayData{
+			output: &DataPreprocessorOutput{
+				Output: []*PreprocessedRelayData{
 					{
 						Bid: &dto.Bid{},
 						Submissions: []*dto.Submission{
@@ -63,8 +63,8 @@ func TestDefaultDataPreprocessor_Preprocess(t *testing.T) {
 					},
 				},
 			},
-			output: &DataPreprocessorOutput[[]*DefaultPreprocessedRelayData]{
-				Output: []*DefaultPreprocessedRelayData{
+			output: &DataPreprocessorOutput{
+				Output: []*PreprocessedRelayData{
 					{
 						Bid: &dto.Bid{},
 						Submissions: []*dto.Submission{
@@ -81,7 +81,7 @@ func TestDefaultDataPreprocessor_Preprocess(t *testing.T) {
 
 	for name, tc := range testCases {
 		t.Run(name, func(t *testing.T) {
-			preprocessor := NewDefaultDataPreprocessor()
+			preprocessor := NewDataPreprocessor()
 			data := preprocessor.Preprocess(tc.input)
 
 			require.Equal(t, tc.output, data)
