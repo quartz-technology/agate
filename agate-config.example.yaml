@@ -1,0 +1,13 @@
+indexer:
+  beacon-api-url: "http://localhost:5051"
+  relay-api-urls:
+    - "https://boost-relay.flashbots.net"
+    - "https://bloxroute.max-profit.blxrbdn.com"
+    - "https://bloxroute.regulated.blxrbdn.com"
+    - "https://relay.ultrasound.money"
+    - "https://relay.edennetwork.io"
+    - "https://mainnet.aestus.live"
+    - "https://agnostic-relay.net"
+  database-migration-source-url: "file://db/migrations"
+  database-connection-url: "postgres://postgres:password@localhost:5432/agatedb?sslmode=disable"
+
