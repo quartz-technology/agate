@@ -8,13 +8,15 @@ import (
 )
 
 // The StorageManager is used to store preprocessed aggregated relay data into a database.
-type StorageManager[T any] interface {
+type StorageManager interface {
 	// StoreRelays is used to store the relay entities at Agate's startup.
 	StoreRelays(ctx context.Context, relays []*dto.Relay) error
 	// StoreAggregatedRelayData is used to store the preprocessed aggregated relay data once
 	// received by the data aggregator.
 	StoreAggregatedRelayData(
 		ctx context.Context,
-		data *data_preprocessor.DataPreprocessorOutput[T],
+		data *data_preprocessor.DataPreprocessorOutput,
 	) error
+	// Shutdown stops the manager sub-services.
+	Shutdown()
 }
