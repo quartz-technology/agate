@@ -26,7 +26,7 @@ go.work
 # Sensitive info
 .env
 .envrc
-.agate-config.yaml
+agate-config.yaml
 
 # Binary
 agate
