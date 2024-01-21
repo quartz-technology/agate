@@ -1,7 +1,25 @@
 version: "3.9"
 
 services:
+  indexer:
+    command:
+      - "indexer"
+    build:
+      dockerfile: Dockerfile
+      context: .
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      - AGATE_INDEXER_DATABASE_CONNECTION_URL=postgres://${AGATE_INDEXER_DATABASE_USERNAME}:${AGATE_INDEXER_DATABASE_PASSWORD}@database:${AGATE_INDEXER_DATABASE_PORT}/${AGATE_INDEXER_DATABASE_DBNAME}?sslmode=disable
+      - AGATE_INDEXER_DATABASE_MIGRATION_SOURCE_URL=${AGATE_INDEXER_DATABASE_MIGRATION_SOURCE_URL}
+      - AGATE_INDEXER_RELAY_API_URLS=${AGATE_INDEXER_RELAY_API_URLS}
+      - AGATE_INDEXER_BEACON_API_URL=${AGATE_INDEXER_BEACON_API_URL}
+    networks:
+      - agate-net
+
   database:
+    hostname: database
     image: bitnami/postgresql:15.2.0
     ports:
       - "${AGATE_INDEXER_DATABASE_PORT}:5432"
@@ -9,3 +27,18 @@ services:
       - POSTGRES_USER=${AGATE_INDEXER_DATABASE_USERNAME}
       - POSTGRES_PASSWORD=${AGATE_INDEXER_DATABASE_PASSWORD}
       - POSTGRES_DATABASE=${AGATE_INDEXER_DATABASE_DBNAME}
+    networks:
+      - agate-net
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "${AGATE_INDEXER_DATABASE_DBNAME}", "-U", "${AGATE_INDEXER_DATABASE_USERNAME}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - indexer-data:/var/lib/postgresql/data
+
+volumes:
+  indexer-data:
+
+networks:
+  agate-net:
