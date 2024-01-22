@@ -58,7 +58,7 @@ func (manager *DefaultStorageManager) StoreRelays(
 
 func (manager *DefaultStorageManager) StoreAggregatedRelayData(
 	ctx context.Context,
-	data *data_preprocessor.DefaultDataPreprocessorOutput,
+	data *data_preprocessor.DataPreprocessorOutput,
 ) error {
 	relays, err := manager.store.ListRelays(ctx)
 	if err != nil {
@@ -108,4 +108,8 @@ func (manager *DefaultStorageManager) StoreAggregatedRelayData(
 	}
 
 	return nil
+}
+
+func (manager *DefaultStorageManager) Shutdown() {
+	manager.store.Close()
 }

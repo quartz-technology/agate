@@ -1,0 +1,6 @@
+kind: Added
+body: Implement `Indexer` service
+time: 2024-01-21T18:04:22.008563+01:00
+custom:
+  Author: 0xpanoramix
+  PR: "11"

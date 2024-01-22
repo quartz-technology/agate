@@ -1,0 +1,16 @@
+.changes/
+.github/
+docs/
+.changie.yaml
+.dockerignore
+.env
+.env.example
+.envrc
+.envrc.example
+.gitignore
+agate-config.yaml
+agate-config.example.yaml
+*.md
+docker-compose.yaml
+Dockerfile
+LICENSE
