@@ -3,6 +3,7 @@ version: "3.9"
 services:
   indexer:
     command:
+      - "--config=/app/agate-config.yaml"
       - "indexer"
     build:
       dockerfile: Dockerfile
@@ -10,13 +11,10 @@ services:
     depends_on:
       database:
         condition: service_healthy
-    environment:
-      - AGATE_INDEXER_DATABASE_CONNECTION_URL=postgres://${AGATE_INDEXER_DATABASE_USERNAME}:${AGATE_INDEXER_DATABASE_PASSWORD}@database:${AGATE_INDEXER_DATABASE_PORT}/${AGATE_INDEXER_DATABASE_DBNAME}?sslmode=disable
-      - AGATE_INDEXER_DATABASE_MIGRATION_SOURCE_URL=${AGATE_INDEXER_DATABASE_MIGRATION_SOURCE_URL}
-      - AGATE_INDEXER_RELAY_API_URLS=${AGATE_INDEXER_RELAY_API_URLS}
-      - AGATE_INDEXER_BEACON_API_URL=${AGATE_INDEXER_BEACON_API_URL}
     networks:
       - agate-net
+    volumes:
+      - ./agate-config-docker.yaml:/app/agate-config.yaml
 
   database:
     hostname: database
