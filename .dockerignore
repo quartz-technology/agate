@@ -10,10 +10,7 @@ docs/
 .gitignore
 agate-config.yaml
 agate-config.example.yaml
-CHANGELOG.md
-CONTRIBUTING.md
+*.md
 docker-compose.yaml
 Dockerfile
 LICENSE
-README.md
-RELEASING.md
