@@ -1,0 +1,22 @@
+{
+  "name": "agate",
+  "root": "..",
+  "sdk": "go",
+  "include": [
+    "**/*.go",
+    "db/**/*.sql",
+    "go.mod",
+    "go.sum",
+    ".golangci.yaml",
+    ".dagger"
+  ],
+  "exclude": [
+    ".github",
+    "**/*.md",
+    "**/*.env*",
+    "**/*.example",
+    "docker-compose*.yaml",
+    "Dockerfile",
+    "docs"
+  ]
+}
