@@ -88,6 +88,11 @@ To build Agate using Docker, run the following command:
 docker build -t agate .
 ```
 
+To build Agate using [Dagger](https://dagger.io/), run the following command:
+```
+dagger -m ./.dagger export binary
+```
+
 ### Start the project
 
 #### Using the binary built from source
@@ -114,6 +119,10 @@ To run both agate and postgres using Docker, run the following command:
 ```shell
 docker compose up # optional: -d to run the containers in detached moe. 
 ```
+
+### Test the project
+
+Check out [the dedicated file](.dagger/README.md)
 
 ## Contributing
 
