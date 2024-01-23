@@ -16,6 +16,9 @@ type CI struct {
 func (c *CI) Run(ctx context.Context) error {
 	wg, gctx := errgroup.WithContext(ctx)
 
+	// Prefix with ci for cloud visibility.
+	c.Project = c.Project.Pipeline("ci")
+
 	wg.Go(func() error {
 		_, err := c.UnitTest(gctx)
 
