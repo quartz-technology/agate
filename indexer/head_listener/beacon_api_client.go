@@ -30,6 +30,8 @@ func NewAgateBeaconAPIClient() *AgateBeaconAPIClient {
 
 // Init initializes an AgateBeaconAPIClient using the beacon API URL to connect to the beacon node.
 func (client *AgateBeaconAPIClient) Init(ctx context.Context, beaconAPIURL string) error {
+	var ok bool
+
 	clt, err := http.New(
 		ctx,
 		http.WithAddress(beaconAPIURL),
@@ -39,7 +41,10 @@ func (client *AgateBeaconAPIClient) Init(ctx context.Context, beaconAPIURL strin
 		return NewBeaconAPIClientInitializationError(err)
 	}
 
-	client.clt = clt.(*http.Service)
+	client.clt, ok = clt.(*http.Service)
+	if !ok {
+		return ErrBeaconAPIClientTypeAssertionError
+	}
 
 	return nil
 }

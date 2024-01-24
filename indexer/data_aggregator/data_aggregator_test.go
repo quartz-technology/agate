@@ -13,6 +13,8 @@ import (
 )
 
 func TestNewAgateDataAggregator(t *testing.T) {
+	t.Parallel()
+
 	aggregator := NewAgateDataAggregator()
 
 	require.NotNil(t, aggregator)
@@ -21,6 +23,8 @@ func TestNewAgateDataAggregator(t *testing.T) {
 }
 
 func TestAgateDataAggregator_Init(t *testing.T) {
+	t.Parallel()
+
 	aggregator := NewAgateDataAggregator()
 	aggregator.Init()
 
@@ -29,6 +33,8 @@ func TestAgateDataAggregator_Init(t *testing.T) {
 }
 
 func TestAgateDataAggregator_AggregateDataForSlotFromRelays(t *testing.T) {
+	t.Parallel()
+
 	testCases := map[string]struct {
 		relayAPIClient           []RelayAPIClient
 		slot                     phase0.Slot
@@ -111,7 +117,11 @@ func TestAgateDataAggregator_AggregateDataForSlotFromRelays(t *testing.T) {
 	}
 
 	for name, tc := range testCases {
+		tc := tc
+
 		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+
 			aggregator := NewAgateDataAggregator()
 			aggregator.Init(tc.relayAPIClient...)
 

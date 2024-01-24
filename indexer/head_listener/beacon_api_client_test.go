@@ -7,6 +7,8 @@ import (
 )
 
 func TestNewAgateBeaconAPIClient(t *testing.T) {
+	t.Parallel()
+
 	client := NewAgateBeaconAPIClient()
 
 	require.NotNil(t, client)

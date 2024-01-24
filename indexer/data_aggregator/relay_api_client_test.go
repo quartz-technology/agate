@@ -7,6 +7,8 @@ import (
 )
 
 func TestNewAgateRelayAPIClient(t *testing.T) {
+	t.Parallel()
+
 	client := NewAgateRelayAPIClient("https://example.com")
 
 	require.NotNil(t, client)
@@ -14,6 +16,8 @@ func TestNewAgateRelayAPIClient(t *testing.T) {
 }
 
 func TestAgateRelayAPIClient_Init(t *testing.T) {
+	t.Parallel()
+
 	testCases := map[string]struct {
 		relayAPIURL string
 		success     bool
@@ -29,7 +33,11 @@ func TestAgateRelayAPIClient_Init(t *testing.T) {
 	}
 
 	for name, tc := range testCases {
+		tc := tc
+
 		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+
 			client := NewAgateRelayAPIClient(tc.relayAPIURL)
 			err := client.Init()
 
@@ -45,6 +53,8 @@ func TestAgateRelayAPIClient_Init(t *testing.T) {
 }
 
 func TestAgateRelayAPIClient_GetRelayAPIURL(t *testing.T) {
+	t.Parallel()
+
 	relayAPIURL := "https://example.com"
 	client := NewAgateRelayAPIClient(relayAPIURL)
 

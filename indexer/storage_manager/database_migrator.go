@@ -1,3 +1,4 @@
+//nolint:stylecheck
 package storage_manager
 
 // The DatabaseMigrator is used to apply the database migrations, ideally at the indexer's startup.

@@ -7,6 +7,8 @@ import (
 )
 
 func TestNewDefaultStorageManager(t *testing.T) {
+	t.Parallel()
+
 	manager := NewDefaultStorageManager()
 
 	require.NotNil(t, manager)
@@ -15,12 +17,15 @@ func TestNewDefaultStorageManager(t *testing.T) {
 
 func TestDefaultStorageManager_Init(t *testing.T) {
 	// TODO.
+	t.Parallel()
 }
 
 func TestDefaultStorageManager_StoreRelays(t *testing.T) {
 	// TODO.
+	t.Parallel()
 }
 
 func TestDefaultStorageManager_StoreAggregatedRelayData(t *testing.T) {
 	// TODO.
+	t.Parallel()
 }

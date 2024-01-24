@@ -52,8 +52,8 @@ func (client *AgateRelayAPIClient) GetRelayDataForSlot(
 	slot phase0.Slot,
 ) (*common.RelayData, error) {
 	var (
-		err error = nil
-		res       = new(common.RelayData)
+		err error
+		res = new(common.RelayData)
 	)
 
 	res.BidsReceived, err = client.sdk.Data().V1().GetBidsReceived(
