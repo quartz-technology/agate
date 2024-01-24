@@ -7,6 +7,8 @@ import (
 )
 
 func TestNewDefaultDatabaseMigrator(t *testing.T) {
+	t.Parallel()
+
 	migrator := NewDefaultDatabaseMigrator()
 
 	require.NotNil(t, migrator)
@@ -15,8 +17,10 @@ func TestNewDefaultDatabaseMigrator(t *testing.T) {
 
 func TestDefaultDatabaseMigrator_Init(t *testing.T) {
 	// TODO.
+	t.Parallel()
 }
 
 func TestDefaultDatabaseMigrator_Migrate(t *testing.T) {
 	// TODO.
+	t.Parallel()
 }

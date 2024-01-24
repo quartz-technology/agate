@@ -84,6 +84,7 @@ func (store *DefaultStore) ListRelays(ctx context.Context) ([]models.Relay, erro
 }
 
 func (store *DefaultStore) ExecInTx(ctx context.Context, fn func(store store.Store) error) error {
+	//nolint:exhaustruct
 	tx, err := store.connectionPool.BeginTx(ctx, pgx.TxOptions{})
 	if err != nil {
 		return NewDefaultStoreTransactionInitializationError(err)

@@ -1,6 +1,11 @@
 package head_listener
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
+
+var ErrBeaconAPIClientTypeAssertionError = errors.New("failed to type assert beacon API HTTP client")
 
 // NewBeaconAPIClientInitializationError is raised if the client used to connect to the beacon
 // node fails to initialize.

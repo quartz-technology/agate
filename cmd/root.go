@@ -9,6 +9,8 @@ import (
 )
 
 // rootCmd represents the base command when called without any subcommands
+//
+//nolint:exhaustruct,gochecknoglobals
 var rootCmd = &cobra.Command{
 	Use:   "agate",
 	Short: "An Ethereum Relay Data Indexer",
@@ -27,6 +29,7 @@ func Execute() {
 	}
 }
 
+//nolint:gochecknoglobals
 var configurationFilePath string
 
 func init() {

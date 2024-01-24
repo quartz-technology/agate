@@ -17,6 +17,8 @@ func NewDataPreprocessor() *DataPreprocessor {
 
 // Preprocess transforms the data_aggregator.DataAggregator's aggregation output into a data
 // structure that the storage_manager.StorageManager service can store in the database.
+//
+//nolint:funlen
 func (preprocessor *DataPreprocessor) Preprocess(
 	data *common.AggregatedRelayData,
 ) *DataPreprocessorOutput {

@@ -18,7 +18,9 @@ import (
 	"github.com/spf13/viper"
 )
 
-// indexerCmd represents the indexer command
+// indexerCmd represents the indexer command.
+//
+//nolint:exhaustruct,gochecknoglobals
 var indexerCmd = &cobra.Command{
 	Use:   "indexer",
 	Short: "The main service of Agate",
@@ -63,6 +65,7 @@ of relays. Once preprocessed, this data is stored in a database.
 	},
 }
 
+//nolint:wrapcheck,funlen
 func run(ctx context.Context, configuration *indexer.Configuration) error {
 	// Performs the database migration.
 	migrator := storage_manager.NewDefaultDatabaseMigrator()
@@ -76,10 +79,12 @@ func run(ctx context.Context, configuration *indexer.Configuration) error {
 	}
 
 	log.Info().Msg("applying database migrations..")
+
 	if err := migrator.Migrate(); err != nil {
 		// TODO: Wrap error.
 		return err
 	}
+
 	log.Info().Msg("database migrations applied!")
 
 	// Sets up beacon API client.
@@ -96,6 +101,7 @@ func run(ctx context.Context, configuration *indexer.Configuration) error {
 	// Sets up relay API clients.
 	relayAPIClients := make([]data_aggregator.RelayAPIClient, 0)
 	relaysDTOs := make([]*dto.Relay, 0)
+
 	for _, relayAPIURL := range configuration.RelayAPIURLs {
 		relayAPIClient := data_aggregator.NewAgateRelayAPIClient(relayAPIURL)
 
@@ -125,6 +131,7 @@ func run(ctx context.Context, configuration *indexer.Configuration) error {
 	// Sets up storage manager and stores provided relays.
 	storage := storage_manager.NewDefaultStorageManager()
 	storage.Init(store)
+
 	if err := storage.StoreRelays(ctx, relaysDTOs); err != nil {
 		// TODO: Wrap error.
 		return err

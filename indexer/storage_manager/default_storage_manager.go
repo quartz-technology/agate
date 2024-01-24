@@ -36,6 +36,7 @@ func (manager *DefaultStorageManager) StoreRelays(
 	for _, relayDTO := range data {
 		relays = append(
 			relays,
+			//nolint:exhaustruct
 			&models.Relay{
 				URL: relayDTO.URL,
 			},
@@ -80,6 +81,7 @@ func (manager *DefaultStorageManager) StoreAggregatedRelayData(
 		bids = append(bids, bidModel)
 
 		for _, submission := range relayData.Submissions {
+			//nolint:exhaustruct
 			submissionModel := &models.Submission{
 				RelayID:      relayURLsToIDs[submission.RelayURL],
 				BidBlockHash: bidModel.BlockHash,

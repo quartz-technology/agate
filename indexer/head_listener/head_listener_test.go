@@ -1,3 +1,4 @@
+//nolint:exhaustruct
 package head_listener
 
 import (
@@ -11,6 +12,8 @@ import (
 )
 
 func TestNewAgateHeadListener(t *testing.T) {
+	t.Parallel()
+
 	listener := NewAgateHeadListener()
 
 	require.NotNil(t, listener)
@@ -18,6 +21,8 @@ func TestNewAgateHeadListener(t *testing.T) {
 }
 
 func TestAgateHeadListener_Init(t *testing.T) {
+	t.Parallel()
+
 	listener := NewAgateHeadListener()
 	mockBeaconAPIClient := mocks.NewMockBeaconAPIClient(nil).WithDefaultInternalImplementations()
 
@@ -27,6 +32,8 @@ func TestAgateHeadListener_Init(t *testing.T) {
 }
 
 func TestAgateHeadListener_Listen(t *testing.T) {
+	t.Parallel()
+
 	testCases := map[string]struct {
 		mockEvents      []*v1.Event
 		headEventsCount int
@@ -79,7 +86,11 @@ func TestAgateHeadListener_Listen(t *testing.T) {
 	}
 
 	for name, tc := range testCases {
+		tc := tc
+
 		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+
 			ctx := context.Background()
 			listener := NewAgateHeadListener()
 			mockBeaconAPIClient := mocks.NewMockBeaconAPIClient(

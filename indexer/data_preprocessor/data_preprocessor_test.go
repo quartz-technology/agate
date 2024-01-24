@@ -1,3 +1,4 @@
+//nolint:exhaustruct
 package data_preprocessor
 
 import (
@@ -11,12 +12,16 @@ import (
 )
 
 func TestNewDefaultDataPreprocessor(t *testing.T) {
+	t.Parallel()
+
 	preprocessor := NewDataPreprocessor()
 
 	require.NotNil(t, preprocessor)
 }
 
 func TestDefaultDataPreprocessor_Preprocess(t *testing.T) {
+	t.Parallel()
+
 	testCases := map[string]struct {
 		input  *common.AggregatedRelayData
 		output *DataPreprocessorOutput
@@ -80,7 +85,11 @@ func TestDefaultDataPreprocessor_Preprocess(t *testing.T) {
 	}
 
 	for name, tc := range testCases {
+		tc := tc
+
 		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+
 			preprocessor := NewDataPreprocessor()
 			data := preprocessor.Preprocess(tc.input)
 
