@@ -7,12 +7,12 @@ import (
 	"sync"
 
 	"github.com/quartz-technology/agate/indexer"
-	"github.com/quartz-technology/agate/indexer/data_aggregator"
-	"github.com/quartz-technology/agate/indexer/data_preprocessor"
-	"github.com/quartz-technology/agate/indexer/head_listener"
-	"github.com/quartz-technology/agate/indexer/storage_manager"
-	"github.com/quartz-technology/agate/indexer/storage_manager/store/dto"
-	"github.com/quartz-technology/agate/indexer/storage_manager/store/postgres"
+	"github.com/quartz-technology/agate/indexer/client"
+	"github.com/quartz-technology/agate/indexer/data"
+	"github.com/quartz-technology/agate/indexer/events"
+	"github.com/quartz-technology/agate/indexer/storage"
+	"github.com/quartz-technology/agate/indexer/storage/store/dto"
+	"github.com/quartz-technology/agate/indexer/storage/store/postgres"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -68,7 +68,7 @@ of relays. Once preprocessed, this data is stored in a database.
 //nolint:wrapcheck,funlen
 func run(ctx context.Context, configuration *indexer.Configuration) error {
 	// Performs the database migration.
-	migrator := storage_manager.NewDefaultDatabaseMigrator()
+	migrator := storage.NewDefaultDatabaseMigrator()
 
 	if err := migrator.Init(
 		configuration.DatabaseMigrationSourceURL,
@@ -88,22 +88,22 @@ func run(ctx context.Context, configuration *indexer.Configuration) error {
 	log.Info().Msg("database migrations applied!")
 
 	// Sets up beacon API client.
-	beaconAPIClient := head_listener.NewAgateBeaconAPIClient()
+	beaconAPIClient := client.NewDefaultBeaconAPI()
 	if err := beaconAPIClient.Init(ctx, configuration.BeaconAPIURL); err != nil {
 		// TODO: Wrap error.
 		return err
 	}
 
 	// Sets up head listener.
-	listener := head_listener.NewAgateHeadListener()
+	listener := events.NewDefaultHeadListener()
 	listener.Init(beaconAPIClient)
 
 	// Sets up relay API clients.
-	relayAPIClients := make([]data_aggregator.RelayAPIClient, 0)
+	relayAPIClients := make([]client.RelayAPI, 0)
 	relaysDTOs := make([]*dto.Relay, 0)
 
 	for _, relayAPIURL := range configuration.RelayAPIURLs {
-		relayAPIClient := data_aggregator.NewAgateRelayAPIClient(relayAPIURL)
+		relayAPIClient := client.NewDefaultRelayAPI(relayAPIURL)
 
 		if err := relayAPIClient.Init(); err != nil {
 			// TODO: Wrap error.
@@ -115,11 +115,11 @@ func run(ctx context.Context, configuration *indexer.Configuration) error {
 	}
 
 	// Sets up data aggregator.
-	aggregator := data_aggregator.NewAgateDataAggregator()
+	aggregator := data.NewDefaultAggregator()
 	aggregator.Init(relayAPIClients...)
 
 	// Creates data preprocessor.
-	preprocessor := data_preprocessor.NewDataPreprocessor()
+	preprocessor := data.NewPreprocessor()
 
 	// Sets up the database store.
 	store := postgres.NewDefaultStore()
@@ -129,16 +129,16 @@ func run(ctx context.Context, configuration *indexer.Configuration) error {
 	}
 
 	// Sets up storage manager and stores provided relays.
-	storage := storage_manager.NewDefaultStorageManager()
-	storage.Init(store)
+	storageManager := storage.NewDefaultManager()
+	storageManager.Init(store)
 
-	if err := storage.StoreRelays(ctx, relaysDTOs); err != nil {
+	if err := storageManager.StoreRelays(ctx, relaysDTOs); err != nil {
 		// TODO: Wrap error.
 		return err
 	}
 
 	// Sets up main indexer service.
-	service := indexer.NewIndexer(listener, aggregator, preprocessor, storage)
+	service := indexer.New(listener, aggregator, preprocessor, storageManager)
 
 	log.Info().Msg("indexer service starting..")
 	// Starts the indexer service. Blocks until context is done.

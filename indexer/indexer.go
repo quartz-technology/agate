@@ -4,30 +4,29 @@ import (
 	"context"
 
 	v1 "github.com/attestantio/go-eth2-client/api/v1"
-	"github.com/quartz-technology/agate/indexer/data_aggregator"
-	"github.com/quartz-technology/agate/indexer/data_preprocessor"
-	"github.com/quartz-technology/agate/indexer/head_listener"
-	"github.com/quartz-technology/agate/indexer/storage_manager"
+	"github.com/quartz-technology/agate/indexer/data"
+	"github.com/quartz-technology/agate/indexer/events"
+	"github.com/quartz-technology/agate/indexer/storage"
 	"github.com/rs/zerolog/log"
 )
 
 type Indexer struct {
-	listener     head_listener.HeadListener
-	aggregator   data_aggregator.DataAggregator
-	preprocessor *data_preprocessor.DataPreprocessor
-	storage      storage_manager.StorageManager
+	listener       events.HeadListener
+	aggregator     data.Aggregator
+	preprocessor   *data.Preprocessor
+	storageManager storage.Manager
 }
 
-func NewIndexer(listener head_listener.HeadListener,
-	aggregator data_aggregator.DataAggregator,
-	preprocessor *data_preprocessor.DataPreprocessor,
-	storage storage_manager.StorageManager,
+func New(listener events.HeadListener,
+	aggregator data.Aggregator,
+	preprocessor *data.Preprocessor,
+	storage storage.Manager,
 ) *Indexer {
 	return &Indexer{
-		listener:     listener,
-		aggregator:   aggregator,
-		preprocessor: preprocessor,
-		storage:      storage,
+		listener:       listener,
+		aggregator:     aggregator,
+		preprocessor:   preprocessor,
+		storageManager: storage,
 	}
 }
 
@@ -58,7 +57,7 @@ func (indexer *Indexer) Start(ctx context.Context) error {
 
 			log.Info().Msg("aggregated relay data successfully preprocessed")
 
-			if err := indexer.storage.StoreAggregatedRelayData(
+			if err := indexer.storageManager.StoreAggregatedRelayData(
 				ctx,
 				preprocessedAggregatedRelayData,
 			); err != nil {
@@ -71,5 +70,5 @@ func (indexer *Indexer) Start(ctx context.Context) error {
 }
 
 func (indexer *Indexer) Stop() {
-	indexer.storage.Shutdown()
+	indexer.storageManager.Shutdown()
 }
